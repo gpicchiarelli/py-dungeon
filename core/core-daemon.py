@@ -34,7 +34,7 @@ class DungeonDaemon(Daemon):
                         time.sleep(1)
 
 if __name__ == "__main__":
-        daemon = MyDaemon('/tmp/dungeon-daemon.pid')
+        daemon = DungeonDaemon('/tmp/dungeon-daemon.pid')
         if len(sys.argv) == 2:
                 if 'start' == sys.argv[1]:
                         daemon.start()
