@@ -35,7 +35,7 @@ class DungeonDaemon(Daemon):
                         #core - modules
 
 if __name__ == "__main__":
-        daemon = DungeonDaemon("/tmp/dungeon-daemon.pid")
+        daemon = DungeonDaemon(pidfile = "/tmp/dungeon-daemon.pid")
         if len(sys.argv) == 2:
                 if 'start' == sys.argv[1]:
                         daemon.start()

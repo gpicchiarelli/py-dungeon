@@ -80,7 +80,7 @@ class Daemon:
 
 	def set_procname(self,name):
 		import ctypes
-		lc = ctypes.cdll.LoadLibrary("libc.so.6")
+		lc = ctypes.cdll.LoadLibrary("libc.so.95.0")
 		lc.prctl(15, name[:15])
 
 	def delpid(self):
@@ -113,22 +113,22 @@ class Daemon:
 		"""
 		# Get the pid from the pidfile
 		try:
-				pf = file(self.pidfile,'r')
-				pid = int(pf.read().strip())
-				pf.close()
+			pf = open(self.pidfile,'r')
+			pid = int(pf.read().strip())
+			pf.close()
 		except IOError:
-				pid = None
+			pid = None
 
 		if not pid:
-				message = "pidfile %s does not exist. Daemon not running?\n"
-				sys.stderr.write(message % self.pidfile)
-				return # not an error in a restart
+			message = "pidfile %s does not exist. Daemon not running?\n"
+			sys.stderr.write(message % self.pidfile)
+			return # not an error in a restart
 
 		# Try killing the daemon process       
 		try:
-				while 1:
-					os.kill(pid, SIGTERM)
-					time.sleep(0.1)
+			while 1:
+				os.kill(pid, SIGTERM)
+				time.sleep(0.1)
 		except OSError as err:
 				err = str(err)
 				if err.find("No such process") > 0:
