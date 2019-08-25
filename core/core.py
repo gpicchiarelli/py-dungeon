@@ -32,10 +32,12 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import os
-import sys
+import os,sys,dungeond
 
 def main():
-    print("placeholder")
+    da.start()
+    sleep(2)
+    da.stop()
 
+da = DungeonDaemon()
 main()
