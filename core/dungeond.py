@@ -25,30 +25,25 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import sys, time
-import daemon
+import sys, time, os, signal, daemon, lockfile
 
-class DungeonDaemon(Daemon):
-        def run(self):
-                while True:
-                        time.sleep(1)
-                        print("run.")
-                        #core - modules
+class DungeonDaemon():
+	def __init__(self):
+		self.contextd = daemon.DaemonContext(
+			chroot_directory=None,
+			pidfile=lockfile.FileLock('/var/run/dungeond.pid')),
+			signal_map={
+				signal.SIGTERM: shutdown,
+				signal.SIGTSTP: shutdown,
+				signal.SIGKILL: shutdown
+			})
 
-if __name__ == "__main__":
-        daemon = DungeonDaemon("/tmp/dungeon-daemon.pid",sys.stdin,sys.stdout,sys.stderr)
-        if len(sys.argv) == 2:
-                if 'start' == sys.argv[1]:
-                        daemon.start()
-                elif 'stop' == sys.argv[1]:
-                        daemon.stop()
-                elif 'restart' == sys.argv[1]:
-                        daemon.restart()
-                else:
-                        print("Unknown command")
-                        sys.exit(2)
-                sys.exit(0)
-        else:	
-                print("py-dungeon - Modular honeypot for OpenBSD")
-                print("usage: %s start|stop|restart" % sys.argv[0])
-                sys.exit(2)
+	def run(self):
+		with self.contextd:
+			print("try daemon!")
+	
+	def stop():
+		
+
+	def shutdown(signum, frame):  # signum and frame are mandatory
+		sys.exit(0)
