@@ -33,6 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import sys
 import os
 import io
+import signal
 
 class Daemon:
 	def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
@@ -46,6 +47,8 @@ class Daemon:
 			pid = os.fork() 
 			if pid > 0:
 				sys.exit(0)
+			fd = open(self.pidfile,'w')
+			fd.write(str(pid))
 		except OSError as e: 
 			sys.stderr.write ("fork #1 failed: (%d) %s\n" % (e.errno, e.strerror) )
 			sys.exit(1)
@@ -57,13 +60,15 @@ class Daemon:
 			pid = os.fork() 
 			if pid > 0:
 				sys.exit(0)
+			fd = open(self.pidfile,'w')
+			fd.write(str(pid))
 		except OSError as e: 
 			sys.stderr.write ("fork #2 failed: (%d) %s\n" % (e.errno, e.strerror) )
 			sys.exit(1)
 
-		stdin_par = os.path.dirname(self.stdin)
-		stdout_par = os.path.dirname(self.stdout)
-		stderr_par = os.path.dirname(self.stderr)
+		stdin_par = os.path.dirname(stdin)
+		stdout_par = os.path.dirname(stdout)
+		stderr_par = os.path.dirname(stderr)
 		if not stdin_par:
 			os.path.makedirs(stdin_par)
 		if not stdout_par:
@@ -93,9 +98,9 @@ class Daemon:
 		# Check for a pidfile to see if the daemon already runs
 		try:
 			pf = open(self.pidfile,'r')
-			pid = int(pf.read().strip())
+			pid = pf.read()
 			pf.close()
-		except IOError:
+		except IOError as e:
 			pid = None
 
 		if pid:
@@ -112,12 +117,14 @@ class Daemon:
 		Stop the daemon
 		"""
 		# Get the pid from the pidfile
-		try:
+		try:			
 			pf = open(self.pidfile,'r')
 			pid = int(pf.read().strip())
 			pf.close()
-		except IOError:
-			pid = None
+			pid = True
+		except IOError as e:
+			pid = False
+			print(e)
 
 		if not pid:
 			message = "pidfile %s does not exist. Daemon not running?\n"
@@ -126,9 +133,7 @@ class Daemon:
 
 		# Try killing the daemon process       
 		try:
-			while 1:
-				os.kill(pid, SIGTERM)
-				time.sleep(0.1)
+			os.kill(pid, signal.SIGTERM)
 		except OSError as err:
 				err = str(err)
 				if err.find("No such process") > 0:
