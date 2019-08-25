@@ -42,7 +42,8 @@ class DungeonDaemon():
 		with self.contextd:
 			print("try daemon!")
 	
-	def stop():
+	def stop(self):
+		os.kill(os.getpid(), signal.SIGTERM)
 		
 
 	def shutdown(signum, frame):  # signum and frame are mandatory
