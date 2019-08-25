@@ -26,7 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import sys, time
-from daemon import Daemon
+import daemon
 
 class DungeonDaemon(Daemon):
         def run(self):
