@@ -40,7 +40,6 @@ da = DungeonDaemon()
 def main():
     da.start()
     sleep(2)
-    da.stop()
+    #da.stop()
 
-if __name__ == '__main__':
-    main()
+main()

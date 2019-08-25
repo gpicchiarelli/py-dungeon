@@ -40,7 +40,8 @@ class DungeonDaemon():
 
 	def run(self):
 		with self.contextd:
-			print("try daemon!")
+			while(True):
+				print("try daemon!")
 	
 	def start(self):
 		self.run()
