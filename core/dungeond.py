@@ -44,7 +44,6 @@ class DungeonDaemon():
 	
 	def stop(self):
 		os.kill(os.getpid(), signal.SIGTERM)
-		
 
 	def shutdown(self,signum, frame):  # signum and frame are mandatory
 		sys.exit(0)

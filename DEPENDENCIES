@@ -1,0 +1,4 @@
+Python dependencies
+=========================
+* twisted
+* python-daemon

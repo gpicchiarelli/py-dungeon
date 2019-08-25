@@ -34,10 +34,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import os,sys,dungeond
 
+da = DungeonDaemon()
+
 def main():
     da.start()
     sleep(2)
     da.stop()
 
-da = DungeonDaemon()
 main()
