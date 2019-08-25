@@ -34,17 +34,19 @@ class DungeonDaemon():
 			chroot_directory=None,
 			pidfile=lockfile.FileLock('/var/run/dungeond.pid'),
 			signal_map={
-				signal.SIGTERM: shutdown,
-				signal.SIGTSTP: shutdown,
-				signal.SIGKILL: shutdown
+				signal.SIGTERM: self.shutdown,
+				signal.SIGTSTP: self.shutdown
 			})
 
 	def run(self):
 		with self.contextd:
 			print("try daemon!")
 	
+	def start(self):
+		self.run()
+	
 	def stop(self):
 		os.kill(os.getpid(), signal.SIGTERM)
 
-	def shutdown(self,signum, frame):  # signum and frame are mandatory
+	def shutdown(signum, frame):  # signum and frame are mandatory
 		sys.exit(0)

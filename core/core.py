@@ -32,7 +32,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import os,sys,dungeond
+import os,sys
+from dungeond import DungeonDaemon
 
 da = DungeonDaemon()
 
@@ -41,4 +42,5 @@ def main():
     sleep(2)
     da.stop()
 
-main()
+if __name__ == '__main__':
+    main()
