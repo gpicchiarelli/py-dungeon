@@ -25,20 +25,70 @@
    25 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
    26 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    27 """
-
 import state_machine
 
 @acts_as_state_machine
-class Person():
-    name = 'Billy'
+class BasicSM(object):
+    
+    def __init__(self,name = 'BasicSM'):
+        self.name = name
+        self.init = State('init', initial=True)
+        self.running = State('running')
+        self.cleaning = State('cleaning')
+        self.exit = State('exit')
 
-    sleeping = State(initial=True)
-    running = State()
-    cleaning = State()
+    @event(from_state=(self.init), to_state=self.running)
+    def initialize(self):
+        pass
 
-    run = Event(from_states=sleeping, to_state=running)
-    cleanup = Event(from_states=running, to_state=cleaning)
-    sleep = Event(from_states=(running, cleaning), to_state=sleeping)
+    @event(from_state=(self.running),to_state=self.cleaning)
+    def run(self):
+        pass
+
+    @event(from_state(self.cleaning), to_state=self.exit)
+    def cleanup(self):
+        pass
+"""
+     self.run = Event(from_states=init, to_state=running)
+     self.cleanup = Event(from_states=running, to_state=cleaning)
+     self.sleep = Event(from_states=(running, cleaning), to_state=sleeping)
+
+    @event(from_states=(locked, unlocked), to_state=unlocked)
+    def coin(self):
+        assert random.random() > .5, 'failing for demonstration purposes, only ..'
+        print('*blingbling* .. unlocked!')
+
+    @event(from_states=(locked, unlocked), to_state=locked)
+    def push(self):
+        print('*push* .. locked!')
+
+    @transition_failure_handler(calling_sequence=2)
+    def turnstile_malfunction(self, method, from_state, to_state, error):
+        print('state transition from {0.name} to {1.name} failed. Reason: {2}'.format(from_state, to_state, error))
+
+    @transition_failure_handler(calling_sequence=1)
+    def before_turnstile_malfunction(self, method, from_state, to_state, error):
+        print('before state transition failure handler ..')
+
+
+Code to review. Taken from example.
+    @event(from_states=(locked, unlocked), to_state=unlocked)
+    def coin(self):
+        assert random.random() > .5, 'failing for demonstration purposes, only ..'
+        print('*blingbling* .. unlocked!')
+
+    @event(from_states=(locked, unlocked), to_state=locked)
+    def push(self):
+        print('*push* .. locked!')
+
+    @transition_failure_handler(calling_sequence=2)
+    def turnstile_malfunction(self, method, from_state, to_state, error):
+        print('state transition from {0.name} to {1.name} failed. Reason: {2}'.format(from_state, to_state, error))
+
+    @transition_failure_handler(calling_sequence=1)
+    def before_turnstile_malfunction(self, method, from_state, to_state, error):
+        print('before state transition failure handler ..')
+
 
     @before('sleep')
     def do_one_thing(self):
@@ -55,3 +105,4 @@ class Person():
     @after('sleep')
     def big_snore(self):
         print "Zzzzzzzzzzzzzzzzzzzzzz"
+"""
