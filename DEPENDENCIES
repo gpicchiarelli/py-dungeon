@@ -1,4 +1,5 @@
-Python dependencies
+Python dependencies 3.x (pip3 install)
 =========================
 * twisted
 * python-daemon
+* state-machine
