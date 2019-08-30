@@ -1,0 +1,11 @@
+#!/bin/ksh
+#
+# $OpenBSD: dungeond,v 0.1.0 2019/08/06 00:02:12 gpicchiarelli Exp $
+
+daemon="python3 /usr/local/sbin/macrandr -D"
+
+. /etc/rc.d/rc.subr
+
+rc_reload=NO
+
+rc_cmd $1
