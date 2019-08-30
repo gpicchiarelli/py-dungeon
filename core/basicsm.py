@@ -25,7 +25,7 @@
    25 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
    26 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    27 """
-import state_machine
+from state_machine import *
 
 @acts_as_state_machine
 class BasicSM(object):
