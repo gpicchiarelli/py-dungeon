@@ -32,17 +32,21 @@ from state_machine import *
 class BasicSM():
 	name = 'default'
 	initialize = State(initial=True)
+	setup = State()
 	running = State()
-	gone = State()        
-	run=Event(from_states=(initialize),to_state=running)
-	closing=Event(from_states=(running),to_state=gone)
+	gone = State()
+	
+	init=Event(from_states=(initialize),to_state=setup)
+	run=Event(from_states=(setup),to_state=running)
+	close=Event(from_states=(running),to_state=gone)
 	
 	def __init__(self,description):
 		self.name = name = description
+		self.init()
 					
 	@before('init')
 	def beforeInit(self):
-		print('beforeInit')
+		print(self.name + ' -- beforeInit')		
 
 	@before('run')
 	def beforeRun(self):
@@ -51,3 +55,9 @@ class BasicSM():
 	@before('close')
 	def beforeClose(self):
 		print('beforeClose')
+
+""" Usage Example
+bm = BasicSM('try')
+bm.run()
+bm.close()
+"""
