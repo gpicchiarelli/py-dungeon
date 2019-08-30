@@ -55,9 +55,8 @@ class PFManager():
 			if(os.geteuid() != 0):
 				print("need root privileges", file=sys.stderr)
 		except e:
-			if (e[0] == errno.EPERM):
-				print(e, file=sys.stderr)
-				sys.exit(1)
+			print(e, file=sys.stderr)
+			sys.exit(1)
 
 pfmgr = PFManager()
 
