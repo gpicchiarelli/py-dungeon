@@ -37,7 +37,7 @@ import signal
 
 class Daemon:
 	def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
-		if type(self) is BasicSM: 
+		if type(self) is Daemon: 
 			raise NotImplementedError("Daemon can't be instantiated")
 		self.stdin = stdin
 		self.stdout = stdout
@@ -47,7 +47,7 @@ class Daemon:
 	def daemonize(self,stdin="/dev/null", stdout="/dev/null", stderr="/dev/null"):
 		try: 
 			pid = os.fork() 
-			if pid > 0:
+			if(pid > 0):
 				sys.exit(0)
 			fd = open(self.pidfile,'w')
 			fd.write(str(pid))
