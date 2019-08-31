@@ -32,32 +32,47 @@ modification, are permitted provided that the following conditions are met:
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import cmd,socket,re
+import cmd,socket,re,sys
 
 class CoreCLI(cmd.Cmd):
 	""" py-dungeond daemon console """
-	
+
 	def __init__(self):
-		self.prompt = 'dungeond $'
+		self.prompt = 'dungeond$ '
 		self.intro = 'Welcome to the dungeond shell. Waiting for orders.'
-	
-	def do_greet(self,line):
-		print("py-dungeond daemon console")
-	
+		self.use_raw_input = True
+		self.completekey = 'tab'
+		self.stdout = sys.stdout
+		self.stdin = sys.stdin
+		self.cmdqueue = ['']
+		
 	def do_quit(self, args):
 		"""Quits the shell."""
 		print("Quitting.")
-		self.close()
+		return True
 	
 	def do_module(self, args):
 		"""module control. Example module <name> check|start|stop"""
 		tm = re.sub('\s+', ' ', args).strip()
 		arg = tm.split(' ')
-		module_name = arg[0]
-		if(arg[1] == 'check'):
-			pass
-		if(arg[1] == 'start'):
-			pass
-		if(arg[1] == 'stop'):
-			pass	
-	
+		if(len(arg) == 2):
+			module_name = arg[0]
+			if(arg[1] == 'check'):
+				print(arg[0])
+				print(arg[1])
+			elif(arg[1] == 'start'):
+				print(arg[0])
+				print(arg[1])
+			elif(arg[1] == 'stop'):
+				print(arg[0])
+				print(arg[1])
+			else:
+				print("Syntax error: module control.")
+				print("Example: module <name> check|start|stop")
+		else:
+			print("Syntax error: module control.")
+			print("Example: module <name> check|start|stop")
+
+if __name__ == "__main__" :
+	cli = CoreCLI()
+	cli.cmdloop()
