@@ -78,6 +78,7 @@ class CoreCLI(cmd.Cmd):
 			print("Syntax error: module control.")
 			print("Example: module <name> check|start|stop")
 
+# Usage example
 if __name__ == "__main__" :
 	cli = CoreCLI()
 	cli.cmdloop()
