@@ -50,6 +50,11 @@ class CoreCLI(cmd.Cmd):
 		"""Quits the shell."""
 		print("Quitting.")
 		return True
+		
+	def do_EOF(self, line):
+		"""Quits the shell."""
+		print("Quitting.")
+		return True
 	
 	def do_module(self, args):
 		"""module control. Example module <name> check|start|stop"""
