@@ -37,6 +37,8 @@ import signal
 
 class Daemon:
 	def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
+		if type(self) is BasicSM: 
+			raise NotImplementedError("Daemon can't be instantiated")
 		self.stdin = stdin
 		self.stdout = stdout
 		self.stderr = stderr

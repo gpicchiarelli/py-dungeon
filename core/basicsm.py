@@ -47,6 +47,8 @@ class BasicSM():
 	close=Event(from_states=(running),to_state=gone)
 	
 	def __init__(self,description):
+		if type(self) is BasicSM: 
+			raise NotImplementedError("BasicSM can't be instantiated")
 		self.name = name = description
 		self.init()
 					
