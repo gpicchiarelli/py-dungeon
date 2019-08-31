@@ -52,7 +52,7 @@ class CoreCLI(cmd.Cmd):
 		return True
 		
 	def do_EOF(self, line):
-		"""Quits the shell."""
+		"""Quits the shell. Type <Ctrl>+<D>"""
 		print("Quitting.")
 		return True
 	
