@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """
 BSD 3-Clause License
 
@@ -31,23 +30,27 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import os,sys
+import os
+import sys
 from dungeond import DungeonDaemon
 
 da = DungeonDaemon()
 
+
 def main():
-	checkPermissions()
-	da.start()
-	sleep(2)
-	da.stop()
+    checkPermissions()
+    da.start()
+    sleep(2)
+    da.stop()
+
 
 def checkPermissions():
-	try:
-		if(os.geteuid() != 0):
-			print("need root privileges", file=sys.stderr)
-	except e:
-		print(e, file=sys.stderr)
-		sys.exit(1)
+    try:
+        if (os.geteuid() != 0):
+            print("need root privileges", file=sys.stderr)
+    except e:
+        print(e, file=sys.stderr)
+        sys.exit(1)
+
 
 main()

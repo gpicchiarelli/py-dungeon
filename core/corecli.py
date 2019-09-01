@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """
 BSD 3-Clause License
 
@@ -32,53 +31,65 @@ modification, are permitted provided that the following conditions are met:
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import cmd,socket,re,sys
+import cmd
+import socket
+import re
+import sys
+import os
+
 
 class CoreCLI(cmd.Cmd):
-	""" py-dungeond daemon console """
+    """ py-dungeond daemon console """
 
-	def __init__(self):
-		self.prompt = 'dungeond$ '
-		self.intro = 'Welcome to the dungeond shell. Waiting for orders.'
-		self.use_raw_input = True
-		self.completekey = 'tab'
-		self.stdout = sys.stdout
-		self.stdin = sys.stdin
-		self.cmdqueue = ['']
-		
-	def do_quit(self, args):
-		"""Quits the shell."""
-		print("Quitting.")
-		return True
-		
-	def do_EOF(self, line):
-		"""Quits the shell. Type <Ctrl>+<D>"""
-		print("Quitting.")
-		return True
-	
-	def do_module(self, args):
-		"""module control. Example module <name> check|start|stop"""
-		tm = re.sub('\s+', ' ', args).strip()
-		arg = tm.split(' ')
-		if(len(arg) == 2):
-			module_name = arg[0]
-			if(arg[1] == 'check'):
-				print(arg[0])
-				print(arg[1])
-			elif(arg[1] == 'start'):
-				print(arg[0])
-				print(arg[1])
-			elif(arg[1] == 'stop'):
-				print(arg[0])
-				print(arg[1])
-			else:
-				print("Syntax error: module control.")
-				print("Example: module <name> check|start|stop")
-		else:
-			print("Syntax error: module control.")
-			print("Example: module <name> check|start|stop")
+    def __init__(self):
+        self.prompt = 'dungeond$ '
+        self.intro = 'Welcome to the dungeond shell. Waiting for orders.'
+        self.use_raw_input = False
+        self.use_raw_input = False
+        self.completekey = 'tab'
+        self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
+        self.sck = self.sock.makefile(mode='rw')
+        self.sock.bind("/tmp/dungeond.socket")
+        self.stdout = self.sck
+        self.stdin = self.sck
+        self.cmdqueue = ['']
+
+    def do_quit(self, args):
+        """Quits the shell."""
+        print("Quitting.")
+        os.remove("/tmp/dungeond.socket")
+        return True
+
+    def do_EOF(self, line):
+        """Quits the shell. Type <Ctrl>+<D>"""
+        print("Quitting.")
+        os.remove("/tmp/dungeond.socket")
+        return True
+
+    def do_module(self, args):
+        """module control. Example module <name> check|start|stop"""
+        tm = re.sub('\s+', ' ', args).strip()
+        arg = tm.split(' ')
+        if (len(arg) == 2):
+            self.module_name = arg[0]
+            if (arg[1] == 'check'):
+                print(arg[0])
+                print(arg[1])
+            elif (arg[1] == 'start'):
+                print(arg[0])
+                print(arg[1])
+            elif (arg[1] == 'stop'):
+                print(arg[0])
+                print(arg[1])
+            else:
+                print("Syntax error: module control.")
+                print("Example: module <name> check|start|stop")
+        else:
+            print("Syntax error: module control.")
+            print("Example: module <name> check|start|stop")
+
 
 # Usage example
-if __name__ == "__main__" :
-	cli = CoreCLI()
-	cli.cmdloop()
+if __name__ == "__main__":
+    cli = CoreCLI()
+    cli.cmdloop()

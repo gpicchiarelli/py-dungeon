@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """
 BSD 3-Clause License
 Copyright (c) 2019, Giacomo Picchiarelli
@@ -31,34 +30,37 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import socket,sys,os
+import socket
+import sys
+import os
+
 
 class PFManager():
-	def __init__(self):
-		self.checkPermissions()
-		
-	def openPortIn(self,nport):
-		pass
-		
-	def openPortOut(self,nport):
-		pass
-	
-	def closePortOut(self,nport):
-		pass
-	
-	def closePortIn(self,nport):
-		pass
-	
-	def checkPermissions(self):
-		try:
-			#os.rename('/etc/foo', '/etc/bar')
-			if(os.geteuid() != 0):
-				print("need root privileges", file=sys.stderr)
-		except e:
-			print(e, file=sys.stderr)
-			sys.exit(1)
+    def __init__(self):
+        self.checkPermissions()
+
+    def openPortIn(self, nport):
+        pass
+
+    def openPortOut(self, nport):
+        pass
+
+    def closePortOut(self, nport):
+        pass
+
+    def closePortIn(self, nport):
+        pass
+
+    def checkPermissions(self):
+        try:
+            # os.rename('/etc/foo', '/etc/bar')
+            if (os.geteuid() != 0):
+                print("need root privileges", file=sys.stderr)
+        except e:
+            print(e, file=sys.stderr)
+            sys.exit(1)
+
 
 pfmgr = PFManager()
-
 """ Usage Example
 """

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """
 BSD 3-Clause License
 
@@ -34,35 +33,37 @@ modification, are permitted provided that the following conditions are met:
 
 from state_machine import *
 
+
 @acts_as_state_machine
 class BasicSM():
-	name = 'default'
-	initialize = State(initial=True)
-	setup = State()
-	running = State()
-	gone = State()
-	
-	init=Event(from_states=(initialize),to_state=setup)
-	run=Event(from_states=(setup),to_state=running)
-	close=Event(from_states=(running),to_state=gone)
-	
-	def __init__(self,description):
-		if type(self) is BasicSM: 
-			raise NotImplementedError("BasicSM can't be instantiated")
-		self.name = name = description
-		self.init()
-					
-	@before('init')
-	def beforeInit(self):
-		print(self.name + ' -- beforeInit')		
+    name = 'default'
+    initialize = State(initial=True)
+    setup = State()
+    running = State()
+    gone = State()
 
-	@before('run')
-	def beforeRun(self):
-		 print('beforeRun')
-	
-	@before('close')
-	def beforeClose(self):
-		print('beforeClose')
+    init = Event(from_states=(initialize), to_state=setup)
+    run = Event(from_states=(setup), to_state=running)
+    close = Event(from_states=(running), to_state=gone)
+
+    def __init__(self, description):
+        if type(self) is BasicSM:
+            raise NotImplementedError("BasicSM can't be instantiated")
+        self.name = name = description
+        self.init()
+
+    @before('init')
+    def beforeInit(self):
+        print(self.name + ' -- beforeInit')
+
+    @before('run')
+    def beforeRun(self):
+        print('beforeRun')
+
+    @before('close')
+    def beforeClose(self):
+        print('beforeClose')
+
 
 """ Usage Example
 bm = BasicSM('try')

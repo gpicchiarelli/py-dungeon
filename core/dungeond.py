@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """
 BSD 3-Clause License
 
@@ -31,28 +30,34 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import sys, time, os, signal, daemon, lockfile
+import sys
+import time
+import os
+import signal
+import daemon
+import lockfile
+
 
 class DungeonDaemon():
-	def __init__(self):
-		self.contextd = daemon.DaemonContext(
-			chroot_directory=None,
-			pidfile=lockfile.FileLock('/var/run/dungeond.pid'),
-			signal_map={
-				signal.SIGTERM: self.shutdown,
-				signal.SIGTSTP: self.shutdown
-			})
+    def __init__(self):
+        self.contextd = daemon.DaemonContext(
+            chroot_directory=None,
+            pidfile=lockfile.FileLock('/var/run/dungeond.pid'),
+            signal_map={
+                signal.SIGTERM: self.shutdown,
+                signal.SIGTSTP: self.shutdown
+            })
 
-	def run(self):
-		with self.contextd:
-			while(True):
-				print("try daemon!")
-	
-	def start(self):
-		self.run()
-	
-	def stop(self):
-		os.kill(os.getpid(), signal.SIGTERM)
+    def run(self):
+        with self.contextd:
+            while (True):
+                print("try daemon!")
 
-	def shutdown(signum, frame):  # signum and frame are mandatory
-		sys.exit(0)
+    def start(self):
+        self.run()
+
+    def stop(self):
+        os.kill(os.getpid(), signal.SIGTERM)
+
+    def shutdown(signum, frame):  # signum and frame are mandatory
+        sys.exit(0)
