@@ -50,8 +50,8 @@ class CoreCLI(cmd.Cmd):
         self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         self.sck = self.sock.makefile(mode='rw')
         self.sock.bind("/tmp/dungeond.socket")
-        self.stdout = self.sck
-        self.stdin = self.sck
+        self.stdout = self.sock
+        self.stdin = self.sock
         self.cmdqueue = ['']
         self.sock.listen(1)
 
