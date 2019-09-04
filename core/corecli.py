@@ -47,12 +47,13 @@ class CoreCLI(cmd.Cmd):
         self.use_raw_input = False
         self.use_raw_input = False
         self.completekey = 'tab'
-        self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
+        self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         self.sck = self.sock.makefile(mode='rw')
         self.sock.bind("/tmp/dungeond.socket")
         self.stdout = self.sck
         self.stdin = self.sck
         self.cmdqueue = ['']
+        self.sock.listen(1)
 
     def do_quit(self, args):
         """Quits the shell."""
